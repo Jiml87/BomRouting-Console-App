@@ -4,10 +4,10 @@ try
 {
     var sourceData = FileWorker.ReadSourceFiles<BomItem, RoutingStep>();
 
-    var bom = (BomItem)sourceData["bom"];
-    var routing = (List<RoutingStep>)sourceData["routing"];
-
-    var report = new Report(bom, routing);
+    var report = new Report(
+        (BomItem)sourceData["bom"],
+        (List<RoutingStep>)sourceData["routing"]
+    );
 
     report.GenerateSumQuantityReport();
 
