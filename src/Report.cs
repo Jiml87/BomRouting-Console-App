@@ -6,7 +6,6 @@ namespace BomRoutingApp
     {
         public readonly BomItem bomData;
         public readonly List<RoutingStep> routingData;
-        private  Dictionary<string, int> _providedComponents = new Dictionary<string, int>();
 
         public Report(BomItem _bomData, List<RoutingStep>_routingData)
         {
@@ -14,33 +13,7 @@ namespace BomRoutingApp
             routingData = _routingData;
         }
 
-        private void GetSumQuantity(BomItem item)
-        {
-            if (item.source == "Provided")
-            {
-                if (_providedComponents.ContainsKey(item.description))
-                {
-                    _providedComponents[item.description] += item.quantity;
-                }
-                else
-                {
-                    _providedComponents[item.description] = item.quantity;
-                }
-            }
-
-            foreach (var subItem in item.bom)
-            {
-                GetSumQuantity(subItem);
-            }
-        }
-        public void GenerateSumQuantityReport()
-        {
-            GetSumQuantity(bomData);
-
-            FileWorker.WriteOutputFile(_providedComponents);
-        }
-
-        private void IterateBomData(Action<BomItem> callback)
+         private void IterateBomData(Action<BomItem> callback)
         {
             var stack = new Stack<BomItem>(new List<BomItem> { bomData });
 
@@ -56,18 +29,39 @@ namespace BomRoutingApp
             }
         }
 
-        public void DisplayNoProvidedComponents()
+        public void GenerateSumQuantityReport()
         {
-            HashSet<int> _bomSetByStep = new HashSet<int>{};
+            Dictionary<string, int> providedComponents = new Dictionary<string, int>();
 
             IterateBomData((BomItem item) => {
-                    _bomSetByStep.Add(item.step);
+                if (item.source == "Provided")
+                {
+                    if (providedComponents.ContainsKey(item.description))
+                    {
+                        providedComponents[item.description] += item.quantity;
+                    }
+                    else
+                    {
+                        providedComponents[item.description] = item.quantity;
+                    }
+                }
+            });
+
+            FileWorker.WriteOutputFile(providedComponents);
+        }
+
+        public void DisplayNoProvidedComponents()
+        {
+            HashSet<int> bomSetByStep = new HashSet<int>{};
+
+            IterateBomData((BomItem item) => {
+                    bomSetByStep.Add(item.step);
             });
 
             ConsoleMessage.DisplaySuccess("No provided components:");
 
             string result = routingData.Aggregate(new StringBuilder(), (acc, item) => {
-                if(!_bomSetByStep.Contains(item.step))
+                if(!bomSetByStep.Contains(item.step))
                 {
                     acc.Append($" - Step {item.step} '{item.description}' has no provided components added.\n");
                 }
