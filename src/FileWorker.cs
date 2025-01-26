@@ -21,11 +21,15 @@ namespace BomRoutingApp
             var routingJson = File.ReadAllText(routingFile);
 
             var bom = JsonConvert.DeserializeObject<T1>(bomJson);
-            var routing = JsonConvert.DeserializeObject<List<T2>>(routingJson);
-
-            if (bom == null || routing == null)
+            if (bom == null )
             {
-                throw new Exception("Deserialization failed. One or both of the files contain invalid data.");
+                throw new Exception("Deserialization failed. The BOM file contains invalid data.");
+            }
+
+            var routing = JsonConvert.DeserializeObject<List<T2>>(routingJson);
+            if (routing == null)
+            {
+                throw new Exception("Deserialization failed. The Routing file contains invalid data.");
             }
 
             var result = new Dictionary<string, object>
