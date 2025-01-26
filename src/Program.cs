@@ -11,7 +11,7 @@ try
 
     report.GenerateSumQuantityReport();
 
-    // report.DisplayNoProvidedComponents();
+    report.DisplayNoProvidedComponents();
 
     report.DisplayOverallTaktTime();
 
