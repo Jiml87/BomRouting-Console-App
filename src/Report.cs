@@ -73,7 +73,11 @@ namespace BomRoutingApp
 
         public void DisplayOverallTaktTime()
         {
-            var totalTaktTime = routingData.Sum(step => step.taktTime);
+            int totalTaktTime = 0;
+            IterateBomData((BomItem item) => {
+                    totalTaktTime += item.quantity;
+            });
+
             ConsoleMessage.DisplaySuccess($"Overall takt time: {totalTaktTime} minutes.\n");
         }
     }
