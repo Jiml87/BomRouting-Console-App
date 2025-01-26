@@ -12,9 +12,13 @@ namespace BomRoutingApp
             string routingFile = "mocks/bunkbed-routing.json"
         ) 
         {
-            if (!File.Exists(bomFile) || !File.Exists(routingFile))
+            if (!File.Exists(bomFile))
             {
-                throw new Exception("No file found bunkbed-bom.json or bunkbed-routing.json");
+                throw new Exception("No file found bunkbed-bom.json");
+            }
+            if (!File.Exists(routingFile))
+            {
+                throw new Exception("No file found bunkbed-routing.json");
             }
 
             var bomJson = File.ReadAllText(bomFile);
