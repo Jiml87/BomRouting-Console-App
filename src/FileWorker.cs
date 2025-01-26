@@ -56,7 +56,8 @@ namespace BomRoutingApp
                     writer.WriteLine($"{component.Key},{component.Value}");
                 }
             }
-            ConsoleMessage.DisplaySuccess($"File \"{outputFilePath}\" created successfully!");
+            
+            ConsoleMessage.DisplaySuccess($"File \"{outputFilePath}\" created successfully!\n");
         }
     }
 }

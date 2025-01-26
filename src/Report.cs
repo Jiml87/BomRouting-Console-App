@@ -3,8 +3,8 @@ namespace BomRoutingApp
     class Report
     {
         private  Dictionary<string, int> _providedComponents = new Dictionary<string, int>();
-        public BomItem bomData;
-        public List<RoutingStep> routingData;
+        public readonly BomItem bomData;
+        public readonly List<RoutingStep> routingData;
         public Report(BomItem _bomData, List<RoutingStep>_routingData)
         {
             bomData = _bomData;
@@ -37,6 +37,10 @@ namespace BomRoutingApp
             FileWorker.WriteOutputFile(_providedComponents);
         }
 
-
+        public void DisplayOverallTaktTime()
+        {
+            var totalTaktTime = routingData.Sum(step => step.taktTime);
+            ConsoleMessage.DisplaySuccess($"Overall takt time: {totalTaktTime} minutes.\n");
+        }
     }
 }
