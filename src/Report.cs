@@ -1,31 +1,40 @@
 namespace BomRoutingApp
 {
-    static class Report
+    class Report
     {
-        public static void GetSumQuantity(BomItem item, Dictionary<string, int> providedComponents)
+        private  Dictionary<string, int> _providedComponents = new Dictionary<string, int>();
+        public BomItem bomData;
+        public List<RoutingStep> routingData;
+        public Report(BomItem _bomData, List<RoutingStep>_routingData)
+        {
+            bomData = _bomData;
+            routingData = _routingData;
+        }
+
+        private void GetSumQuantity(BomItem item)
         {
             if (item.source == "Provided")
             {
-                if (providedComponents.ContainsKey(item.description))
+                if (_providedComponents.ContainsKey(item.description))
                 {
-                    providedComponents[item.description] += item.quantity;
+                    _providedComponents[item.description] += item.quantity;
                 }
                 else
                 {
-                    providedComponents[item.description] = item.quantity;
+                    _providedComponents[item.description] = item.quantity;
                 }
             }
 
             foreach (var subItem in item.bom)
             {
-                GetSumQuantity(subItem, providedComponents);
+                GetSumQuantity(subItem);
             }
         }
-        public static void GenerateSumQuantityReport(BomItem item, Dictionary<string, int> providedComponents)
+        public void GenerateSumQuantityReport()
         {
-            GetSumQuantity(item, providedComponents);
+            GetSumQuantity(bomData);
 
-            FileWorker.WriteOutputFile(providedComponents);
+            FileWorker.WriteOutputFile(_providedComponents);
         }
 
 

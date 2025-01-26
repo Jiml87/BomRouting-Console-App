@@ -2,14 +2,14 @@
 
 try
 {
-    var result = FileWorker.ReadSourceFiles<BomItem, RoutingStep>();
+    var sourceData = FileWorker.ReadSourceFiles<BomItem, RoutingStep>();
 
-    var bom = (BomItem)result["bom"];
-    var routing = (List<RoutingStep>)result["routing"];
+    var bom = (BomItem)sourceData["bom"];
+    var routing = (List<RoutingStep>)sourceData["routing"];
 
-    var providedComponents = new Dictionary<string, int>();
+    var report = new Report(bom, routing);
 
-    Report.GenerateSumQuantityReport(bom, providedComponents);
+    report.GenerateSumQuantityReport();
 
     
 }
