@@ -31,3 +31,5 @@ appsettings.*.json
 
 # Dependency directories
 packages/
+
+output.csv
