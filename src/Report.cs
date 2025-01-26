@@ -21,5 +21,13 @@ namespace BomRoutingApp
                 GetSumQuantity(subItem, providedComponents);
             }
         }
+        public static void GenerateSumQuantityReport(BomItem item, Dictionary<string, int> providedComponents)
+        {
+            GetSumQuantity(item, providedComponents);
+
+            FileWorker.WriteOutputFile(providedComponents);
+        }
+
+
     }
 }

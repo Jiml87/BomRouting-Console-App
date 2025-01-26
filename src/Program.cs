@@ -9,9 +9,9 @@ try
 
     var providedComponents = new Dictionary<string, int>();
 
-    Report.GetSumQuantity(bom, providedComponents);
+    Report.GenerateSumQuantityReport(bom, providedComponents);
 
-    FileWorker.WriteOutputFile(providedComponents);
+    
 }
 catch (System.Exception ex)
 {
