@@ -8,5 +8,11 @@ namespace BomRoutingApp
             Console.WriteLine(message);
             Console.ResetColor();
         }
+        public static void DisplaySuccess(string message)
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine(message);
+            Console.ResetColor();
+        }
     }
 }

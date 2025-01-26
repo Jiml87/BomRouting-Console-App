@@ -14,11 +14,11 @@ namespace BomRoutingApp
         {
             if (!File.Exists(bomFile))
             {
-                throw new Exception("No file found bunkbed-bom.json");
+                throw new Exception($"No file found \"{bomFile}\"");
             }
             if (!File.Exists(routingFile))
             {
-                throw new Exception("No file found bunkbed-routing.json");
+                throw new Exception($"No file found \"{routingFile}\"");
             }
 
             var bomJson = File.ReadAllText(bomFile);
@@ -27,13 +27,13 @@ namespace BomRoutingApp
             var bom = JsonConvert.DeserializeObject<T1>(bomJson);
             if (bom == null )
             {
-                throw new Exception("Deserialization failed. The BOM file contains invalid data.");
+                throw new Exception($"Deserialization failed. The file \"{bomFile}\" contains invalid data.");
             }
 
             var routing = JsonConvert.DeserializeObject<List<T2>>(routingJson);
             if (routing == null)
             {
-                throw new Exception("Deserialization failed. The Routing file contains invalid data.");
+                throw new Exception($"Deserialization failed. The file \"{routingFile}\" contains invalid data.");
             }
 
             var result = new Dictionary<string, object>
@@ -46,9 +46,17 @@ namespace BomRoutingApp
 
         }
 
-        public static void WriteOutputFile()
+        public static void WriteOutputFile(Dictionary<string, int> providedComponents, string outputFilePath = "output.csv")
         {
-
+            using (var writer = new StreamWriter(outputFilePath))
+            {
+                writer.WriteLine("component,quantity");
+                foreach (var component in providedComponents)
+                {
+                    writer.WriteLine($"{component.Key},{component.Value}");
+                }
+            }
+            ConsoleMessage.DisplaySuccess($"File \"{outputFilePath}\" created successfully!");
         }
     }
 }

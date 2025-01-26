@@ -7,8 +7,11 @@ try
     var bom = (BomItem)result["bom"];
     var routing = (List<RoutingStep>)result["routing"];
 
-    Console.WriteLine($"Bom Item: {bom.description}, Quantity: {bom.quantity}");
-    Console.WriteLine($"Routing Step: {routing[0].step}, Description: {routing[0].description}");
+    var providedComponents = new Dictionary<string, int>();
+
+    Report.GetSumQuantity(bom, providedComponents);
+
+    FileWorker.WriteOutputFile(providedComponents);
 }
 catch (System.Exception ex)
 {
