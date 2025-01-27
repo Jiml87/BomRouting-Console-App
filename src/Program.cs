@@ -4,7 +4,7 @@ try
 {
     var sourceData = FileWorker.ReadSourceFiles<BomItem, RoutingStep>();
 
-    var report = new Report(
+    Report report = new Report(
         (BomItem)sourceData["bom"],
         (List<RoutingStep>)sourceData["routing"]
     );
@@ -15,7 +15,7 @@ try
 
     report.DisplayOverallTaktTime();
 
-    
+
 }
 catch (System.Exception ex)
 {

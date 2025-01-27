@@ -5,12 +5,12 @@ using System.Collections.Generic;
 
 namespace BomRoutingApp
 {
-    static class FileWorker 
+    static class FileWorker
     {
         public static Dictionary<string, object> ReadSourceFiles<T1, T2>(
             string bomFile = "mocks/bunkbed-bom.json",
             string routingFile = "mocks/bunkbed-routing.json"
-        ) 
+        )
         {
             if (!File.Exists(bomFile))
             {
@@ -25,7 +25,7 @@ namespace BomRoutingApp
             var routingJson = File.ReadAllText(routingFile);
 
             var bom = JsonConvert.DeserializeObject<T1>(bomJson);
-            if (bom == null )
+            if (bom == null)
             {
                 throw new Exception($"Deserialization failed. The file \"{bomFile}\" contains invalid data.");
             }
@@ -56,7 +56,7 @@ namespace BomRoutingApp
                     writer.WriteLine($"{component.Key},{component.Value}");
                 }
             }
-            
+
             ConsoleMessage.DisplaySuccess($"File \"{outputFilePath}\" created successfully!\n");
         }
     }

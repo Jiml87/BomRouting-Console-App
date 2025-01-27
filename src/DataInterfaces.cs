@@ -1,5 +1,6 @@
 
-namespace BomRoutingApp {
+namespace BomRoutingApp
+{
     class BomItem
     {
         public required string description { get; set; }
